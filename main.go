@@ -1,17 +1,24 @@
 package main
 
+import (
+	linkedlist "structures/list/linkedList"
+)
+
 func main() {
-	// arrays
-	var a [5]int = [5]int{1, 2, 3}
+	node := linkedlist.NewNode(2)
 
-	println(a[3])
-	// add
-	a[3] = 4
-	println(a[2])
-	println(a[3])
+	println(*node.GetData())
 
-	a[4] = 5
+	num := 3
 
-	println(a[4])
+	node.SetData(&num)
+
+	println(*node.GetData())
+
+	node2 := linkedlist.NewNode(4)
+
+	node.SetNext(node2)
+
+	println(*node.GetNext().GetData())
 
 }
