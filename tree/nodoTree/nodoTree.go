@@ -48,6 +48,22 @@ func (node *Node[T]) GetHeightLeft() int {
 	return node.heightLeft
 }
 
+func (node *Node[T]) IsFather() bool {
+	return node.GetLeft() != nil || node.GetRight() != nil
+}
+
+func (node *Node[T]) GetMaxHeight() int {
+	if node.heightLeft > node.heightRight {
+		return node.heightLeft
+	} else {
+		return node.heightRight
+	}
+}
+
+func (node *Node[T]) GetBalance() int {
+	return node.heightRight - node.heightLeft
+}
+
 func New[T any](data *T) *Node[T] {
 	newNode := Node[T]{
 		right: nil,
