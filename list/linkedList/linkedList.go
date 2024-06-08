@@ -1,5 +1,7 @@
 package linkedlist
 
+import "errors"
+
 type LinkedList[T any] struct {
 	head    *Node[T]
 	length  int
@@ -10,8 +12,8 @@ func (list *LinkedList[T]) Size() int {
 	return list.length
 }
 
-func (list *LinkedList[T]) Add(data T) {
-	node := NewNode(data)
+func (list *LinkedList[T]) Add(data *T) {
+	node := NewNode(*data)
 
 	if list.head == nil {
 		list.head = node
@@ -43,11 +45,11 @@ func (list *LinkedList[T]) Get(n int) *T {
 	return currentNode.GetData()
 }
 
-func (list *LinkedList[T]) Contains(data T) bool {
+func (list *LinkedList[T]) Contains(data *T) bool {
 	currentNode := list.head
 
 	for currentNode != nil {
-		if list.equeals(*currentNode.GetData(), data) {
+		if list.equeals(*currentNode.GetData(), *data) {
 			return true
 		}
 
@@ -55,6 +57,46 @@ func (list *LinkedList[T]) Contains(data T) bool {
 	}
 
 	return false
+}
+
+func (list *LinkedList[T]) IndexOf(data *T) int {
+	currentNode := list.head
+
+	for i := 0; i < list.length && currentNode != nil; i++ {
+		if list.equeals(*currentNode.GetData(), *data) {
+			return i
+		}
+	}
+	return -1
+}
+
+func (list *LinkedList[T]) Set(n int, data *T) (*T, error) {
+	if n < 0 || n > list.length {
+		return nil, errors.New("index out of limits")
+	}
+
+	node := NewNode[T](*data)
+
+	currentNode := list.head
+
+	if n == 0 {
+		node.SetNext(currentNode.GetNext())
+
+		list.head = node
+		return currentNode.GetData(), nil
+	}
+
+	count := 0
+	for {
+		if count+1 == n {
+			saveNode := currentNode.GetNext()
+			node.SetNext(currentNode.GetNext().GetNext())
+			currentNode.SetNext(node)
+
+			return saveNode.GetData(), nil
+		}
+		count = count + 1
+	}
 }
 
 func NewLinkedList[T any](equals func(a, b T) bool) *LinkedList[T] {
