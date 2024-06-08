@@ -17,6 +17,7 @@ func (list *LinkedList[T]) Add(data *T) {
 
 	if list.head == nil {
 		list.head = node
+		list.length = list.length + 1
 		return
 	}
 
@@ -66,6 +67,7 @@ func (list *LinkedList[T]) IndexOf(data *T) int {
 		if list.equeals(*currentNode.GetData(), *data) {
 			return i
 		}
+		currentNode = currentNode.GetNext()
 	}
 	return -1
 }
