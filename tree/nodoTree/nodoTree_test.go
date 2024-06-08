@@ -76,22 +76,42 @@ func TestSetRightMethod(t *testing.T) {
 	}
 }
 
-func TestGetBalanceMethod(t *testing.T) {
+func TestGetHeightRightMethod(t *testing.T) {
 	data := 10
 	node := New(&data)
 
-	if node.GetBalance() != 0 {
-		t.Fatal("Node balance must be 0")
+	if node.GetHeightRight() != 0 {
+		t.Fatal("Height right must be 0 but is ", node.GetHeightRight())
 	}
 }
 
-func TestSetBalanceMethod(t *testing.T) {
+func TestSetHeightRightMethod(t *testing.T) {
 	data := 10
 	node := New(&data)
 
-	node.SetBalance(1)
+	node.SetHeightRight(10)
 
-	if node.GetBalance() != 1 {
-		t.Fatal("Node balance must be 1")
+	if node.GetHeightRight() != 10 {
+		t.Fatal("Height right must be 10, but is ", node.GetHeightRight())
+	}
+}
+
+func TestGetHeightLeftMethod(t *testing.T) {
+	data := 10
+	node := New(&data)
+
+	if node.GetHeightLeft() != 0 {
+		t.Fatal("Height left must be 0, but is ", node.GetHeightLeft())
+	}
+}
+
+func TestSetHeightLeftMethod(t *testing.T) {
+	data := 10
+	node := New(&data)
+
+	node.SetHeightLeft(10)
+
+	if node.GetHeightLeft() != 10 {
+		t.Fatal("Height left must be 10, but is ", node.GetHeightLeft())
 	}
 }

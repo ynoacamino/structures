@@ -1,10 +1,11 @@
 package nodotree
 
 type Node[T any] struct {
-	right   *Node[T]
-	left    *Node[T]
-	data    *T
-	balance int
+	right       *Node[T]
+	left        *Node[T]
+	data        *T
+	heightRight int
+	heightLeft  int
 }
 
 func (node *Node[T]) SetData(data *T) {
@@ -31,12 +32,20 @@ func (node *Node[T]) GetRight() *Node[T] {
 	return node.right
 }
 
-func (node *Node[T]) SetBalance(n int) {
-	node.balance = n
+func (node *Node[T]) SetHeightRight(height int) {
+	node.heightRight = height
 }
 
-func (node *Node[T]) GetBalance() int {
-	return node.balance
+func (node *Node[T]) SetHeightLeft(height int) {
+	node.heightLeft = height
+}
+
+func (node *Node[T]) GetHeightRight() int {
+	return node.heightRight
+}
+
+func (node *Node[T]) GetHeightLeft() int {
+	return node.heightLeft
 }
 
 func New[T any](data *T) *Node[T] {
