@@ -20,10 +20,7 @@ func (list *LinkedList[T]) Add(data T) {
 
 	currentNode := list.head
 
-	for {
-		if currentNode.GetNext() == nil {
-			break
-		}
+	for currentNode.GetNext() != nil {
 		currentNode = currentNode.GetNext()
 	}
 
