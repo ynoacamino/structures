@@ -29,6 +29,33 @@ func NewHashMap[V any](capacity int) *HashMap[V] {
 	}
 }
 
+func (hashMap *HashMap[V]) rehash() {
+	hashMap.capacity = hashMap.capacity * 2
+
+	oldTable := hashMap.table
+
+	hashMap.table = make([]*l.LinkedList[n.NodeHash[string, V]], hashMap.capacity)
+
+	hashMap.size = 0
+
+	for _, slot := range oldTable {
+		if slot == nil {
+			continue
+		}
+
+		slot.ForEach(func(node *n.NodeHash[string, V], i int) {
+			hashMap.Put(node.GetKey(), node.GetValue())
+
+		})
+	}
+}
+
+func (hashmap *HashMap[V]) checkLoadFactor() {
+	if (float32(hashmap.size) / float32(hashmap.capacity)) > hashmap.loadFactor {
+		hashmap.rehash()
+	}
+}
+
 func (hashMap *HashMap[V]) Put(key string, value *V) *V {
 	nodeHash := n.NewNodeHash(key, value)
 
@@ -41,8 +68,6 @@ func (hashMap *HashMap[V]) Put(key string, value *V) *V {
 	}
 
 	list := hashMap.table[hashedKey]
-
-	hashMap.size = hashMap.size + 1
 
 	currentNode := list.GetFirstNode()
 
@@ -58,6 +83,10 @@ func (hashMap *HashMap[V]) Put(key string, value *V) *V {
 	}
 
 	list.AddFirst(nodeHash)
+
+	hashMap.size = hashMap.size + 1
+
+	hashMap.checkLoadFactor()
 
 	return value
 }
@@ -100,8 +129,14 @@ func (hashMap *HashMap[V]) Remove(key string) *V {
 	return oldValue.GetValue()
 }
 
-func (hashMap *HashMap[V]) CotainsKey(key string) bool {
-	return true
+func (hashMap *HashMap[V]) ContainsKey(key string) bool {
+	hashedKey := city.CityHash32([]byte(key)) % uint32(hashMap.capacity)
+
+	matchNode := n.NewNodeHash[string, V](key, nil)
+
+	slot := hashMap.table[hashedKey]
+
+	return slot.Contains(matchNode)
 }
 
 func (hashMap *HashMap[V]) IsEmpty() bool {
@@ -115,4 +150,12 @@ func (hashMap *HashMap[V]) Size() int {
 func (hasMap *HashMap[V]) Clear() {
 	hasMap.table = make([]*l.LinkedList[n.NodeHash[string, V]], hasMap.capacity)
 	hasMap.size = 0
+}
+
+func (hashMap *HashMap[V]) GetCapacity() int {
+	return hashMap.capacity
+}
+
+func (hashMap *HashMap[V]) GetBalance() float32 {
+	return float32(hashMap.size) / float32(hashMap.capacity)
 }
