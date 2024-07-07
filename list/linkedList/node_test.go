@@ -5,7 +5,9 @@ import (
 )
 
 func TestNewNodeMethod(t *testing.T) {
-	node := NewNode(2)
+	num := 2
+
+	node := NewNode(&num)
 
 	if node == nil {
 		t.Fatal("Node struct not iniziatizated")
@@ -13,7 +15,9 @@ func TestNewNodeMethod(t *testing.T) {
 }
 
 func TestGetDataMethod(t *testing.T) {
-	node := NewNode(2)
+	num := 2
+
+	node := NewNode(&num)
 
 	if *node.GetData() != 2 {
 		t.Fatalf("The get data method not working, must be 2, but is %d", *node.GetData())
@@ -21,7 +25,9 @@ func TestGetDataMethod(t *testing.T) {
 }
 
 func TestSetDataMethod(t *testing.T) {
-	node := NewNode(2)
+	input := 2
+
+	node := NewNode(&input)
 
 	num := 3
 
@@ -33,7 +39,9 @@ func TestSetDataMethod(t *testing.T) {
 }
 
 func TestGetNextMethod(t *testing.T) {
-	node := NewNode(2)
+	num := 2
+
+	node := NewNode(&num)
 
 	if node.GetNext() != nil {
 		t.Fatalf("The get next method not working, must be nil, but is %v", node.GetNext())
@@ -41,8 +49,11 @@ func TestGetNextMethod(t *testing.T) {
 }
 
 func TestSetNextMethod(t *testing.T) {
-	node := NewNode(2)
-	node2 := NewNode(3)
+	input1 := 2
+	input2 := 3
+
+	node := NewNode(&input1)
+	node2 := NewNode(&input2)
 
 	node.SetNext(node2)
 

@@ -1,16 +1,16 @@
 package linkedlist
 
 type Node[T any] struct {
-	data     T
+	data     *T
 	nextNode *Node[T]
 }
 
 func (node *Node[T]) GetData() *T {
-	return &node.data
+	return node.data
 }
 
 func (node *Node[T]) SetData(data *T) {
-	node.data = *data
+	node.data = data
 }
 
 func (node *Node[T]) GetNext() *Node[T] {
@@ -21,7 +21,7 @@ func (node *Node[T]) SetNext(nextNode *Node[T]) {
 	node.nextNode = nextNode
 }
 
-func NewNode[T any](data T) *Node[T] {
+func NewNode[T any](data *T) *Node[T] {
 	node := Node[T]{
 		data:     data,
 		nextNode: nil,

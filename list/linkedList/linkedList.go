@@ -13,7 +13,7 @@ func (list *LinkedList[T]) Size() int {
 }
 
 func (list *LinkedList[T]) Add(data *T) {
-	node := NewNode(*data)
+	node := NewNode(data)
 
 	if list.head == nil {
 		list.head = node
@@ -32,6 +32,16 @@ func (list *LinkedList[T]) Add(data *T) {
 	list.length = list.length + 1
 }
 
+func (list *LinkedList[T]) AddFirst(data *T) {
+	node := NewNode(data)
+
+	node.SetNext(list.head)
+
+	list.head = node
+
+	list.length = list.length + 1
+}
+
 func (list *LinkedList[T]) Get(n int) *T {
 	if n < 0 || n > list.length {
 		return nil
@@ -44,6 +54,62 @@ func (list *LinkedList[T]) Get(n int) *T {
 	}
 
 	return currentNode.GetData()
+}
+
+func (list *LinkedList[T]) Remove(n int) *T {
+	if n < 0 || n > list.length {
+		return nil
+	}
+
+	currentNode := list.head
+
+	if n == 0 {
+		list.head = currentNode.GetNext()
+		list.length = list.length - 1
+		return currentNode.GetData()
+	}
+
+	count := 0
+	for {
+		if count+1 == n {
+			saveNode := currentNode.GetNext()
+
+			currentNode.SetNext(currentNode.GetNext().GetNext())
+			list.length = list.length - 1
+
+			return saveNode.GetData()
+		}
+		count = count + 1
+	}
+}
+
+func (list *LinkedList[T]) RemoveMatch(data *T) *T {
+	curentNode := list.head
+
+	if list.equeals(*curentNode.GetData(), *data) {
+		list.head = curentNode.GetNext()
+		list.length = list.length - 1
+		return curentNode.GetData()
+	}
+
+	for curentNode.GetNext() != nil {
+		if list.equeals(*curentNode.GetNext().GetData(), *data) {
+			saveNode := curentNode.GetNext()
+
+			curentNode.SetNext(curentNode.GetNext().GetNext())
+			list.length = list.length - 1
+
+			return saveNode.GetData()
+		}
+
+		curentNode = curentNode.GetNext()
+	}
+
+	return nil
+}
+
+func (list *LinkedList[T]) GetFirstNode() *Node[T] {
+	return list.head
 }
 
 func (list *LinkedList[T]) Contains(data *T) bool {
@@ -77,7 +143,7 @@ func (list *LinkedList[T]) Set(n int, data *T) (*T, error) {
 		return nil, errors.New("index out of limits")
 	}
 
-	node := NewNode[T](*data)
+	node := NewNode[T](data)
 
 	currentNode := list.head
 
