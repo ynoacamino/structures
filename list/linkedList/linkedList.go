@@ -176,3 +176,16 @@ func NewLinkedList[T any](equals func(a, b T) bool) *LinkedList[T] {
 
 	return &list
 }
+
+func (list *LinkedList[T]) ForEach(function func(*T, int)) {
+	currentNode := list.head
+
+	index := 0
+
+	for currentNode != nil {
+		function(currentNode.data, index)
+
+		currentNode = currentNode.GetNext()
+		index = index + 1
+	}
+}

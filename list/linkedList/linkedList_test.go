@@ -121,3 +121,25 @@ func TestSetMethod(t *testing.T) {
 		t.Fatalf("The set method not working, the value of index 0 must be %d", *linkedList.Get(0))
 	}
 }
+
+func TestForEach(t *testing.T) {
+	linkedList := NewLinkedList(func(a, b int) bool {
+		return a == b
+	})
+
+	e1 := 0
+	e2 := 1
+
+	linkedList.Add(&e1)
+	linkedList.Add(&e2)
+
+	linkedList.ForEach(func(data *int, i int) {
+		if i == 0 && *data != e1 {
+			t.Fatalf("The forEach method not working, the value of index 0 must be %d", *data)
+		}
+
+		if i == 1 && *data != e2 {
+			t.Fatalf("The forEach method not working, the value of index 1 must be %d", *data)
+		}
+	})
+}
