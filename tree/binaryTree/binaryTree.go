@@ -3,7 +3,7 @@ package binarytree
 import (
 	"errors"
 	"fmt"
-	nodotree "structures/tree/nodoTree"
+	nodotree "structures/tree/binaryTree/nodoTree"
 )
 
 type BinaryTree[T any] struct {
