@@ -15,10 +15,22 @@ func NewTrie[T any]() *Trie[T] {
 	}
 }
 
+func (trie Trie[T]) Get(str string) *T {
+	bytes := convertToBytes(str)
+
+	return trie.root.GetInNode(&bytes, 0)
+}
+
 func (trie Trie[T]) Add(str string, value *T) {
 	bytes := convertToBytes(str)
 
 	trie.root.AddInNode(&bytes, 0, value)
+}
+
+func (trie Trie[T]) Search(str string) bool {
+	bytes := convertToBytes(str)
+
+	return trie.root.SearchInNode(&bytes, 0)
 }
 
 func convertToBytes(str string) []byte {
@@ -29,4 +41,24 @@ func convertToBytes(str string) []byte {
 	}
 
 	return bytes
+}
+
+func (trie *Trie[T]) Remove(str string) *T {
+	bytes := convertToBytes(str)
+
+	return trie.root.RemoveInNode(&bytes, 0)
+}
+
+func (trie *Trie[T]) suggest(str string) []*n.TrieNode[T] {
+	bytes := convertToBytes(str)
+
+	node := trie.root.SearchPreFix(&bytes, 0)
+
+	if node == nil {
+		return nil
+	}
+
+	suggestSlice := make([]*n.TrieNode[T], 0) 
+
+	return suggestSlice
 }
