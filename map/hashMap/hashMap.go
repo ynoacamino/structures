@@ -2,7 +2,7 @@ package hashmap
 
 import (
 	l "structures/list/linkedList"
-	city "structures/map/hash"
+	city "structures/map/hashFunc/cityHash"
 	n "structures/map/hashMap/nodeHash"
 )
 
