@@ -1,9 +1,12 @@
 package linkedlist
 
-import "errors"
+import (
+	"errors"
+	nList "structures/list/linkedList/nodeList"
+)
 
 type LinkedList[T any] struct {
-	head    *Node[T]
+	head    *nList.Node[T]
 	length  int
 	equeals func(a, b T) bool
 }
@@ -13,7 +16,7 @@ func (list *LinkedList[T]) Size() int {
 }
 
 func (list *LinkedList[T]) Add(data *T) {
-	node := NewNode(data)
+	node := nList.NewNode(data)
 
 	if list.head == nil {
 		list.head = node
@@ -33,7 +36,7 @@ func (list *LinkedList[T]) Add(data *T) {
 }
 
 func (list *LinkedList[T]) AddFirst(data *T) {
-	node := NewNode(data)
+	node := nList.NewNode(data)
 
 	node.SetNext(list.head)
 
@@ -108,7 +111,7 @@ func (list *LinkedList[T]) RemoveMatch(data *T) *T {
 	return nil
 }
 
-func (list *LinkedList[T]) GetFirstNode() *Node[T] {
+func (list *LinkedList[T]) GetFirstNode() *nList.Node[T] {
 	return list.head
 }
 
@@ -143,7 +146,7 @@ func (list *LinkedList[T]) Set(n int, data *T) (*T, error) {
 		return nil, errors.New("index out of limits")
 	}
 
-	node := NewNode[T](data)
+	node := nList.NewNode[T](data)
 
 	currentNode := list.head
 
@@ -183,7 +186,7 @@ func (list *LinkedList[T]) ForEach(function func(*T, int)) {
 	index := 0
 
 	for currentNode != nil {
-		function(currentNode.data, index)
+		function(currentNode.GetData(), index)
 
 		currentNode = currentNode.GetNext()
 		index = index + 1
