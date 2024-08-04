@@ -9,8 +9,6 @@ type BTree[T any] struct {
 	root *n.NodeBTree[T]
 	t    int
 
-	up bool
-
 	ComparteTo func(a, b *T) int
 }
 
